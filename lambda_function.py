@@ -6,7 +6,7 @@ import requests
 from bs4 import BeautifulSoup
 
 def get_building_and_apartment_number(name: str) -> tuple[str, str]:
-    m = re.match(r'Őrmező\s?(\w)\D*(\d*)', name)
+    m = re.match(r'[Ő|Ö]rmező\s?(\w)\D*(\d*)', name)
 
     if m is None:
         return ("-", "-")
