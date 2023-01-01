@@ -69,6 +69,14 @@ def get_prometheus_text(data: list[dict]) -> str:
             pump_sate = room['OUT']
             lines.append(f'pump_state{{name="{name}",building="{building_and_apartment_number[0]}",apartment_number="{building_and_apartment_number[1]}",room="{room_name}"}} {pump_sate}')
 
+    lines.append("# HELP overheat_state Overheat state")
+    lines.append("# TYPE overheat_state gauge")
+    for item in data:
+        name = item['ICON']['NAME']
+        building_and_apartment_number = get_building_and_apartment_number(name)
+        overheat_state = 0 if item['ICON']['OVERHEAT'] == 'inaktív' else 1
+        lines.append(f'overheat_state{{name="{name}",building="{building_and_apartment_number[0]}",apartment_number="{building_and_apartment_number[1]}"}} {overheat_state}')
+
     return '\n'.join(lines)
 
 
